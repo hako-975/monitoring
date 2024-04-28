@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
-  <a href="index.php" class="brand-link">
+  <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>index.php" class="brand-link">
     <img src="https://png.pngtree.com/png-clipart/20200225/original/pngtree-computer-static-graph-monitor-abstract-flat-color-icon-templa-png-image_5254061.jpg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
     <span class="brand-text font-weight-light">Monitoring</span>
   </a>

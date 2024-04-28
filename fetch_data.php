@@ -2,8 +2,8 @@
 require_once 'connection.php';
 
 // Fetch latest data
-$sql_dht22 = "SELECT temperature, humidity FROM dht22 ORDER BY create_at DESC LIMIT 1";
-$sql_ina219 = "SELECT tegangan, arus FROM ina219 ORDER BY create_at DESC LIMIT 1";
+$sql_dht22 = "SELECT * FROM dht22 ORDER BY create_at DESC, id DESC LIMIT 5";
+$sql_ina219 = "SELECT * FROM ina219 ORDER BY create_at DESC, id DESC LIMIT 5";
 
 $result_dht22 = mysqli_query($connection, $sql_dht22);
 $result_ina219 = mysqli_query($connection, $sql_ina219);

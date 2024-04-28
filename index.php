@@ -53,13 +53,13 @@ $dataUserLogin = dataUserLogin();
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3 id="temperature">150</h3>
+                <h3 id="temperature">N/A</h3>
                 <p>Suhu</p>
               </div>
               <div class="icon">
                 <i class="fas fa-temperature-high"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>tables/suhu_dan_kelembaban_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -67,13 +67,13 @@ $dataUserLogin = dataUserLogin();
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3 id="humidity">50</h3>
+                <h3 id="humidity">N/A</h3>
                 <p>Kelembaban</p>
               </div>
               <div class="icon">
                 <i class="fas fa-water"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>tables/suhu_dan_kelembaban_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -81,13 +81,13 @@ $dataUserLogin = dataUserLogin();
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3 id="arus"></h3>
+                <h3 id="arus">N/A</h3>
                 <p>Arus</p>
               </div>
               <div class="icon">
                 <i class="fas fa-bolt"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>tables/arus_dan_tegangan_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -95,13 +95,13 @@ $dataUserLogin = dataUserLogin();
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3 id="tegangan"></h3>
+                <h3 id="tegangan">N/A</h3>
                 <p>Tegangan</p>
               </div>
               <div class="icon">
                 <i class="fas fa-car-battery"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>tables/arus_dan_tegangan_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -110,38 +110,46 @@ $dataUserLogin = dataUserLogin();
         <!-- Main row -->
         <div class="row">
           <!-- Left col -->
-          <section class="col-lg-7 connectedSortable">
+          <section class="col-lg-12 connectedSortable">
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
-                  <i class="fas fa-chart-pie mr-1"></i>
+                  <i class="fas fa-chart-line mr-1"></i>
                   Suhu dan Kelembaban
                 </h3>
-                <div class="card-tools">
-                  <ul class="nav nav-pills ml-auto">
-                    <li class="nav-item">
-                      <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                    </li>
-                  </ul>
-                </div>
               </div><!-- /.card-header -->
               <div class="card-body">
-                <div class="tab-content p-0">
                   <!-- Morris chart - Sales -->
-                  <div class="chart tab-pane active" id="revenue-chart"
-                       style="position: relative; height: 300px;">
-                      <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
-                   </div>
-                  <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                    <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
+                  <div class="chart" id="suhu-kelembaban-chart" style="position: relative; height: 300px;">
+                    <canvas id="suhu-kelembaban-chart-canvas" height="300" style="height: 300px;"></canvas>
                   </div>
-                </div>
               </div><!-- /.card-body -->
-            
+            <!-- /.card -->
+            </div>
+            <!-- /.card -->
+          </section>
+          <!-- /.Left col -->
+          <!-- right col (We are only adding the ID to make the widgets sortable)-->
+          <section class="col-lg-12 connectedSortable">
+             <!-- solid sales graph -->
+             <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-chart-line mr-1"></i>
+                  Arus dan Tegangan 
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="chart" id="arus-tegangan-chart" style="position: relative; height: 300px;">
+                    <canvas id="arus-tegangan-chart-canvas" height="300" style="height: 300px;"></canvas>
+                  </div>
+              </div>
+            </div>
+            <!-- /.card -->
+          </section>
+          <!-- right col -->
+          <section class="col-lg-12 connectedSortable">
             <!-- Calendar -->
             <div class="card bg-gradient-success">
               <div class="card-header border-0">
@@ -149,28 +157,6 @@ $dataUserLogin = dataUserLogin();
                   <i class="far fa-calendar-alt"></i>
                   Calendar
                 </h3>
-                <!-- tools card -->
-                <div class="card-tools ">
-                  <!-- button with a dropdown -->
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" data-offset="-52">
-                      <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="dropdown-menu" role="menu">
-                      <a href="#" class="dropdown-item">Add new event</a>
-                      <a href="#" class="dropdown-item">Clear events</a>
-                      <div class="dropdown-divider"></div>
-                      <a href="#" class="dropdown-item">View calendar</a>
-                    </div>
-                  </div>
-                  <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-                <!-- /. tools -->
               </div>
               <!-- /.card-header -->
               <div class="card-body pt-0">
@@ -179,66 +165,9 @@ $dataUserLogin = dataUserLogin();
               </div>
               <!-- /.card-body -->
             </div>
-            <!-- /.card -->
-            </div>
-            <!-- /.card -->
           </section>
-          <!-- /.Left col -->
 
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
-          <section class="col-lg-5 connectedSortable">
-             <!-- solid sales graph -->
-             <div class="card bg-gradient-info">
-              <div class="card-header border-0">
-                <h3 class="card-title">
-                  <i class="fas fa-th mr-1"></i>
-                  Arus dan Tegangan 
-                </h3>
-
-                <div class="card-tools">
-                  <button type="button" class="btn bg-info btn-sm" data-card-widget="collapse">
-                    <i class="fas fa-minus"></i>
-                  </button>
-                  <button type="button" class="btn bg-info btn-sm" data-card-widget="remove">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="card-body">
-                <canvas class="chart" id="line-chart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-              </div>
-              <!-- /.card-body -->
-              <div class="card-footer bg-transparent">
-                <div class="row">
-                  <div class="col-4 text-center">
-                    <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
-                           data-fgColor="#39CCCC">
-
-                    <div class="text-white">Mail-Orders</div>
-                  </div>
-                  <!-- ./col -->
-                  <div class="col-4 text-center">
-                    <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-                           data-fgColor="#39CCCC">
-
-                    <div class="text-white">Online</div>
-                  </div>
-                  <!-- ./col -->
-                  <div class="col-4 text-center">
-                    <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
-                           data-fgColor="#39CCCC">
-
-                    <div class="text-white">In-Store</div>
-                  </div>
-                  <!-- ./col -->
-                </div>
-                <!-- /.row -->
-              </div>
-              <!-- /.card-footer -->
-            </div>
-            <!-- /.card -->
-          </section>
-          <!-- right col -->
+          
         </div>
         <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
@@ -252,6 +181,7 @@ $dataUserLogin = dataUserLogin();
 </div>
 <!-- ./wrapper -->
 <?php include_once 'include/script.php'; ?>
+
 <script>
 // Function to fetch data from PHP script
 function fetchData() {
@@ -277,5 +207,178 @@ fetchData();
 // Fetch data every 5 seconds
 setInterval(fetchData, 5000);
 </script>
+
+<script>
+$(function () {
+  'use strict'
+  // chart
+  var suhuKelembabanCanvas = document.getElementById('suhu-kelembaban-chart-canvas').getContext('2d')
+
+  var suhuKelembabanData = {
+    labels: [],
+    datasets: [
+      {
+        label: 'Suhu',
+        backgroundColor: 'rgba(60,141,188,0.6)',
+        borderColor: 'rgba(60,141,188,1)',
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        data: []
+      },
+      {
+        label: 'Kelembaban',
+        backgroundColor: 'rgba(40,167,69,0.6)',
+        borderColor: 'rgba(36,150,62,1)',
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        data: []
+      }
+    ]
+  }
+
+  var suhuKelembabanOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+    legend: {
+      display: true
+    },
+    scales: {
+      xAxes: [{
+        gridLines: {
+          display: true
+        }
+      }],
+      yAxes: [{
+        gridLines: {
+          display: true
+        }
+      }]
+    }, 
+    elements: {
+      line: {
+        tension: 0 
+      }
+    }
+  }
+
+  // This will get the first returned node in the jQuery collection.
+  // eslint-disable-next-line no-unused-vars
+  var suhuKelembaban = new Chart(suhuKelembabanCanvas, { // lgtm[js/unused-local-variable]
+    type: 'line',
+    data: suhuKelembabanData,
+    options: suhuKelembabanOptions
+  })
+
+  // Function to fetch data from PHP script
+  function fetchDataArraySuhuKelembaban() {
+    $.ajax({
+      url: 'fetch_data_array_suhu_kelembaban.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        suhuKelembabanData.labels = data.label_suhu_kelembaban_array;
+        suhuKelembabanData.datasets[0].data = data.temperature_array;
+        suhuKelembabanData.datasets[1].data = data.humidity_array;
+        suhuKelembaban.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
+  // Fetch data initially
+  fetchDataArraySuhuKelembaban();
+
+  // Fetch data every 5 seconds
+  setInterval(fetchDataArraySuhuKelembaban, 5000);
+
+// ----------------------------------------------------
+
+  // chart
+  var arusTeganganCanvas = document.getElementById('arus-tegangan-chart-canvas').getContext('2d')
+
+  var arusTeganganData = {
+    labels: [],
+    datasets: [
+      {
+        label: 'Arus',
+        backgroundColor: 'rgba(255,193,7,0.6)',
+        borderColor: 'rgba(229,173,6,1)',
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        data: []
+      },
+      {
+        label: 'Tegangan',
+        backgroundColor: 'rgba(220,53,69,0.6)',
+        borderColor: 'rgba(220,53,69,1)',
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        data: []
+      }
+    ]
+  }
+
+  var arusTeganganOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+    legend: {
+      display: true
+    },
+    scales: {
+      xAxes: [{
+        gridLines: {
+          display: true
+        }
+      }],
+      yAxes: [{
+        gridLines: {
+          display: true
+        }
+      }]
+    }, 
+    elements: {
+      line: {
+        tension: 0 
+      }
+    }
+  }
+
+  // This will get the first returned node in the jQuery collection.
+  // eslint-disable-next-line no-unused-vars
+  var arusTegangan = new Chart(arusTeganganCanvas, { // lgtm[js/unused-local-variable]
+    type: 'line',
+    data: arusTeganganData,
+    options: arusTeganganOptions
+  })
+
+  // Function to fetch data from PHP script
+  function fetchDataArrayArusTegangan() {
+    $.ajax({
+      url: 'fetch_data_array_arus_tegangan.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        arusTeganganData.labels = data.label_arus_tegangan_array;
+        arusTeganganData.datasets[0].data = data.arus_array;
+        arusTeganganData.datasets[1].data = data.tegangan_array;
+        arusTegangan.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
+  // Fetch data initially
+  fetchDataArrayArusTegangan();
+
+  // Fetch data every 5 seconds
+  setInterval(fetchDataArrayArusTegangan, 5000);
+})
+
+</script>
+
 </body>
 </html>
