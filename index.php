@@ -18,10 +18,10 @@ $dataUserLogin = dataUserLogin();
 <div class="wrapper">
 
   <!-- Preloader -->
- <!--  <div class="preloader flex-column justify-content-center align-items-center">
+  <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="https://png.pngtree.com/png-clipart/20200225/original/pngtree-computer-static-graph-monitor-abstract-flat-color-icon-templa-png-image_5254061.jpg" alt="AdminLTELogo" height="60" width="60">
   </div>
- -->
+
   <!-- Navbar -->
   <?php include_once 'include/navbar.php'; ?>
   <!-- /.navbar -->

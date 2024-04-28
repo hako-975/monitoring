@@ -135,12 +135,12 @@ $(function () {
     scales: {
       xAxes: [{
         gridLines : {
-          display : false,
+          display : true,
         }
       }],
       yAxes: [{
         gridLines : {
-          display : false,
+          display : true,
         }
       }]
     }
@@ -182,12 +182,12 @@ $(function () {
     scales: {
       xAxes: [{
         gridLines : {
-          display : false,
+          display : true,
         }
       }],
       yAxes: [{
         gridLines : {
-          display : false,
+          display : true,
         }
       }]
     }
