@@ -2,7 +2,7 @@
 require_once 'connection.php';
 
 $sql_ina219 = "SELECT * FROM (
-    SELECT * FROM ina219 ORDER BY id DESC LIMIT 5
+    SELECT * FROM ina219 ORDER BY id DESC
 ) AS latest_data
 ORDER BY create_at ASC;
 ";
@@ -15,8 +15,8 @@ $tegangan_data = array();
 $arus_data = array();
 while ($data = mysqli_fetch_assoc($result_ina219)) {
     $label_arus_tegangan_array[] = $data['create_at'];
-    $arus_data[] = $data['arus'];
-    $tegangan_data[] = $data['tegangan'];
+    $arus_data[] = $data['arus'] . " A";
+    $tegangan_data[] = $data['tegangan'] . " V";
 }
 
 $data_array = array(
