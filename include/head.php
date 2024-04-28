@@ -1,13 +1,3 @@
-<?php 
-
-require_once 'connection.php';
-
-checkLogin();
-
-$dataUserLogin = dataUserLogin();
-
-?>
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="https://png.pngtree.com/png-clipart/20200225/original/pngtree-computer-static-graph-monitor-abstract-flat-color-icon-templa-png-image_5254061.jpg">

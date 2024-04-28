@@ -1,15 +1,20 @@
 <?php 
 require_once 'connection.php';
 
+checkLogin();
+
+$dataUserLogin = dataUserLogin();
+
 if (isset($_POST['btnGantiPassword'])) {
-    if (gantiPassword($_POST) > 0) {
-      setAlert("Berhasil", "Password berhasil diganti", "success");
-      header("Location: profile.php");
-      exit;
-    }
+  if (gantiPassword($_POST) > 0) {
+    setAlert("Berhasil", "Password berhasil diganti", "success");
+    header("Location: profile.php");
+    exit;
+  }
 }
 
- ?>
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">

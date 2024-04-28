@@ -1,3 +1,13 @@
+<?php 
+
+require_once 'connection.php';
+
+checkLogin();
+
+$dataUserLogin = dataUserLogin();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,10 +18,10 @@
 <div class="wrapper">
 
   <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
+ <!--  <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="https://png.pngtree.com/png-clipart/20200225/original/pngtree-computer-static-graph-monitor-abstract-flat-color-icon-templa-png-image_5254061.jpg" alt="AdminLTELogo" height="60" width="60">
   </div>
-
+ -->
   <!-- Navbar -->
   <?php include_once 'include/navbar.php'; ?>
   <!-- /.navbar -->
@@ -43,7 +53,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
+                <h3 id="temperature">150</h3>
                 <p>Suhu</p>
               </div>
               <div class="icon">
@@ -57,7 +67,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                <h3 id="humidity">50</h3>
                 <p>Kelembaban</p>
               </div>
               <div class="icon">
@@ -71,7 +81,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3 id="arus"></h3>
                 <p>Arus</p>
               </div>
               <div class="icon">
@@ -85,7 +95,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65</h3>
+                <h3 id="tegangan"></h3>
                 <p>Tegangan</p>
               </div>
               <div class="icon">
@@ -177,32 +187,6 @@
 
           <!-- right col (We are only adding the ID to make the widgets sortable)-->
           <section class="col-lg-5 connectedSortable">
-            <!-- Map card -->
-            <div class="card bg-gradient-primary">
-              <!-- /.card-body-->
-              <div class="card-footer bg-transparent">
-                <div class="row">
-                  <div class="col-4 text-center">
-                    <div id="sparkline-1"></div>
-                    <div class="text-white">Visitors</div>
-                  </div>
-                  <!-- ./col -->
-                  <div class="col-4 text-center">
-                    <div id="sparkline-2"></div>
-                    <div class="text-white">Online</div>
-                  </div>
-                  <!-- ./col -->
-                  <div class="col-4 text-center">
-                    <div id="sparkline-3"></div>
-                    <div class="text-white">Sales</div>
-                  </div>
-                  <!-- ./col -->
-                </div>
-                <!-- /.row -->
-              </div>
-            </div>
-            <!-- /.card -->
-
              <!-- solid sales graph -->
              <div class="card bg-gradient-info">
               <div class="card-header border-0">
@@ -268,5 +252,30 @@
 </div>
 <!-- ./wrapper -->
 <?php include_once 'include/script.php'; ?>
+<script>
+// Function to fetch data from PHP script
+function fetchData() {
+  $.ajax({
+    url: 'fetch_data.php',
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      $('#temperature').text(data.temperature + ' °C');
+      $('#humidity').text(data.humidity + ' %');
+      $('#tegangan').text(data.tegangan + ' V');
+      $('#arus').text(data.arus + ' A');
+    },
+    error: function(xhr, status, error) {
+      console.error('Error fetching data:', error);
+    }
+  });
+}
+
+// Fetch data initially
+fetchData();
+
+// Fetch data every 5 seconds
+setInterval(fetchData, 5000);
+</script>
 </body>
 </html>

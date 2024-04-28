@@ -1,12 +1,16 @@
 <?php 
 require_once 'connection.php';
 
+checkLogin();
+
+$dataUserLogin = dataUserLogin();
+
 if (isset($_POST['btnUbahUser'])) {
-    if (ubahUser($_POST) > 0) {
-      setAlert("Berhasil", "User berhasil diubah", "success");
-      header("Location: profile.php");
-      exit;
-    }
+  if (ubahUser($_POST) > 0) {
+    setAlert("Berhasil", "User berhasil diubah", "success");
+    header("Location: profile.php");
+    exit;
+  }
 }
 
  ?>

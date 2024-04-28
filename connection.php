@@ -1,14 +1,8 @@
 <?php
 date_default_timezone_set("Asia/Jakarta");
 session_start();
-define('HOST', 'localhost');
-define('USER', 'root');
-define('PASS', '');
-define('DB', 'monitoring');
 
-$connection = mysqli_connect(HOST, USER, PASS, DB) or die('Koneksi Gagal');
-
-include_once 'include/alert.php'; 
+$connection = mysqli_connect('localhost', 'root', '', 'monitoring') or die('Koneksi Gagal');
 
 function setAlert($title='', $text='', $type='', $buttons='') {
 	$_SESSION["alert"]["title"]		= $title;

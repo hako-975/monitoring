@@ -1,7 +1,20 @@
+<?php 
+
+require_once '../connection.php';
+
+checkLogin();
+
+$dataUserLogin = dataUserLogin();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <title>Arus dan Tegangan Charts</title>
+  
+  <link rel="icon" href="https://png.pngtree.com/png-clipart/20200225/original/pngtree-computer-static-graph-monitor-abstract-flat-color-icon-templa-png-image_5254061.jpg">
+
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -30,7 +43,7 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+              <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
               <li class="breadcrumb-item active">Flot</li>
             </ol>
           </div>

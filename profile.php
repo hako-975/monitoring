@@ -1,3 +1,12 @@
+<?php 
+
+require_once 'connection.php';
+
+checkLogin();
+
+$dataUserLogin = dataUserLogin();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
