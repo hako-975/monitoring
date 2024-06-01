@@ -53,11 +53,22 @@ $dataUserLogin = dataUserLogin();
             <div class="card">
               <!-- /.card-header -->
               <div class="card-body">
+                <div class="form-group">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="filterButton">
+                      Semua Data
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="#" onclick="setFilter('semua')">Semua Data</a>
+                      <a class="dropdown-item" href="#" onclick="setFilter('perhari')">Perhari</a>
+                      <a class="dropdown-item" href="#" onclick="setFilter('perminggu')">Perminggu</a>
+                      <a class="dropdown-item" href="#" onclick="setFilter('perbulan')">Perbulan</a>
+                    </div>
+                  </div>
+                </div>
                 <div id="tableContainer"></div>
               </div>
             </div>
-            <!-- /.card -->
-
             <!-- /.card -->
           </div>
         </div>
@@ -82,11 +93,19 @@ $dataUserLogin = dataUserLogin();
 <script src="../plugins/datatables/dataTables.bootstrap4.min.js"></script>
 
 <script>
+let currentFilter = 'semua'; // Default filter
+
+function setFilter(filter) {
+    currentFilter = filter;
+    document.getElementById('filterButton').textContent = filter.charAt(0).toUpperCase() + filter.slice(1);
+    fetchRealTimeData();
+}
+
 function updateRealTimeTable(data) {
     var tableContainer = $('#tableContainer');
     tableContainer.empty(); // Clear existing data
     
-    var table = $('<table>').addClass('table table-bordered').attr('id', 'dataTable');
+    var table = $('<table>').addClass('table table-bordered');
     var thead = $('<thead>').appendTo(table);
     var tbody = $('<tbody>').attr('id', 'dataBody').appendTo(table);
 
@@ -103,7 +122,7 @@ function updateRealTimeTable(data) {
         row.append($('<td>').text(i + 1 + ".")); // No.
         row.append($('<td>').text(data.arus_array[i])); // Arus
         row.append($('<td>').text(data.tegangan_array[i])); // Tegangan
-        row.append($('<td>').text(data.label_arus_tegangan_array[i])); // Tegangan
+        row.append($('<td>').text(data.label_arus_tegangan_array[i])); // Create At
         tbody.append(row); // Append row to table
     }
 
@@ -114,7 +133,7 @@ function updateRealTimeTable(data) {
 // Function to fetch real-time data from server
 function fetchRealTimeData() {
     $.ajax({
-        url: '../fetch_data_array_arus_tegangan_no_limit.php', // Path to server-side script
+        url: `../fetch_data_array_arus_tegangan_no_limit.php?filter=${currentFilter}`, // Path to server-side script with filter parameter
         type: 'GET',
         dataType: 'json',
         success: function(data) {

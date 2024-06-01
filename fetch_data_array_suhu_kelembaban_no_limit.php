@@ -1,16 +1,29 @@
 <?php
 require_once 'connection.php';
 
-// Fetch latest data
-$sql_dht22 = "SELECT * FROM (
-    SELECT * FROM dht22 ORDER BY id DESC
-) AS latest_data
-ORDER BY create_at DESC;
-";
+// Get the filter from the query parameters
+$filter = isset($_GET['filter']) ? $_GET['filter'] : 'semua';
+
+// Prepare SQL query based on the filter
+switch ($filter) {
+    case 'perhari':
+        $sql_dht22 = "SELECT * FROM dht22 WHERE create_at >= CURDATE() ORDER BY create_at DESC;";
+        break;
+    case 'perminggu':
+        $sql_dht22 = "SELECT * FROM dht22 WHERE create_at >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK) ORDER BY create_at DESC;";
+        break;
+    case 'perbulan':
+        $sql_dht22 = "SELECT * FROM dht22 WHERE create_at >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) ORDER BY create_at DESC;";
+        break;
+    case 'semua':
+    default:
+        $sql_dht22 = "SELECT * FROM dht22 ORDER BY create_at DESC;";
+        break;
+}
 
 $result_dht22 = mysqli_query($connection, $sql_dht22);
 
-// Fetch latest data for labels suhu dan kelembaban
+// Fetch data for labels suhu dan kelembaban
 $label_suhu_kelembaban = array();
 $temperature_data = array();
 $humidity_data = array();

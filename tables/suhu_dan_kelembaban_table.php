@@ -53,6 +53,19 @@ $dataUserLogin = dataUserLogin();
             <div class="card">
               <!-- /.card-header -->
               <div class="card-body">
+                <div class="form-group">
+                  <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="filterButton">
+                      Semua Data
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" href="#" onclick="setFilter('semua')">Semua Data</a>
+                      <a class="dropdown-item" href="#" onclick="setFilter('perhari')">Perhari</a>
+                      <a class="dropdown-item" href="#" onclick="setFilter('perminggu')">Perminggu</a>
+                      <a class="dropdown-item" href="#" onclick="setFilter('perbulan')">Perbulan</a>
+                    </div>
+                  </div>
+                </div>
                 <div id="tableContainer"></div>
               </div>
             </div>
@@ -82,11 +95,19 @@ $dataUserLogin = dataUserLogin();
 <script src="../plugins/datatables/dataTables.bootstrap4.min.js"></script>
 
 <script>
+let currentFilter = 'semua'; // Default filter
+
+function setFilter(filter) {
+    currentFilter = filter;
+    document.getElementById('filterButton').textContent = filter.charAt(0).toUpperCase() + filter.slice(1);
+    fetchRealTimeData();
+}
+
 function updateRealTimeTable(data) {
     var tableContainer = $('#tableContainer');
     tableContainer.empty(); // Clear existing data
     
-    var table = $('<table>').addClass('table table-bordered').attr('id', 'dataTable');
+    var table = $('<table>').addClass('table table-bordered');
     var thead = $('<thead>').appendTo(table);
     var tbody = $('<tbody>').attr('id', 'dataBody').appendTo(table);
 
@@ -114,7 +135,7 @@ function updateRealTimeTable(data) {
 // Function to fetch real-time data from server
 function fetchRealTimeData() {
     $.ajax({
-        url: '../fetch_data_array_suhu_kelembaban_no_limit.php', // Path to server-side script
+        url: `../fetch_data_array_suhu_kelembaban_no_limit.php?filter=${currentFilter}`, // Path to server-side script with filter parameter
         type: 'GET',
         dataType: 'json',
         success: function(data) {
