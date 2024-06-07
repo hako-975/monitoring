@@ -14,7 +14,7 @@ $label_arus_tegangan_array = array();
 $tegangan_data = array();
 $arus_data = array();
 while ($data = mysqli_fetch_assoc($result_ina219)) {
-    $label_arus_tegangan_array[] = $data['create_at'];
+    $label_arus_tegangan_array[] = date('d/m/Y, H:i:s', strtotime($data['create_at']));
     $arus_data[] = $data['arus'];
     $tegangan_data[] = $data['tegangan'];
 }

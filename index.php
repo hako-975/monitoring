@@ -13,14 +13,51 @@ $dataUserLogin = dataUserLogin();
 <head>
   <title>Monitoring</title>
   <?php include_once 'include/head.php'; ?>
+  <style>
+    .compass {
+      width: 300px;
+      height: 300px;
+      background-image: url('dist/img/background.png');
+      background-size: cover;
+      position: relative;
+      text-align: center;
+      margin: auto;
+    }
+
+    .needle {
+      position: absolute;
+      width: 25px;
+      height: 120px;
+      background-image: url('dist/img/arrow.png'); 
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: transform 0.5s ease;
+      margin: auto;
+      top: 50%;
+      margin-top: -120px;
+      left: 50%;
+      transform-origin: 50% 100%;
+      transform: translateX(-50%) rotate(0deg);
+    }
+
+
+    .buttons {
+      margin-top: 20px;
+    }
+
+    button {
+      margin: 5px;
+    }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
   <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
+  <!-- <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="https://png.pngtree.com/png-clipart/20200225/original/pngtree-computer-static-graph-monitor-abstract-flat-color-icon-templa-png-image_5254061.jpg" alt="AdminLTELogo" height="60" width="60">
-  </div>
+  </div> -->
 
   <!-- Navbar -->
   <?php include_once 'include/navbar.php'; ?>
@@ -107,6 +144,35 @@ $dataUserLogin = dataUserLogin();
           <!-- ./col -->
         </div>
         <!-- /.row -->
+        <div class="row mb-3">
+          <div class="col">
+            <div class="card mb-3">
+              <div class="row no-gutters">
+                <div class="col-md-5 p-4">
+                  <div class="compass">
+                    <div id="direction" class="needle"></div>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-12 p-3 border">
+                        <h4 class="mb-0 font-weight-bold">Arah Servo</h4>
+                      </div>
+                      <div class="col-6 border p-3">Left Top (LT): <strong id="ldr_lt"></strong> (unit)</div>
+                      <div class="col-6 border p-3">Right Top (RT): <strong id="ldr_rt"></strong> (unit)</div>
+                      <div class="col-6 border p-3">Left Down (LD): <strong id="ldr_ld"></strong> (unit)</div>
+                      <div class="col-6 border p-3">Right Down (RD): <strong id="ldr_rd"></strong> (unit)</div>
+                      <div class="col-6 border p-3">Servo Horizontal: <strong id="servo_h"></strong> (derajat)</div>
+                      <div class="col-6 border p-3">Servo Vertical: <strong id="servo_v"></strong> (derajat)</div>
+                      <div class="col-12 border p-3">Create At: <strong id="create_at"></strong></div>
+                    </div>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- Main row -->
         <div class="row">
           <!-- Left col -->
@@ -182,6 +248,7 @@ $dataUserLogin = dataUserLogin();
 <!-- ./wrapper -->
 <?php include_once 'include/script.php'; ?>
 
+
 <script>
 // Function to fetch data from PHP script
 function fetchData() {
@@ -207,6 +274,59 @@ fetchData();
 // Fetch data every 5 seconds
 setInterval(fetchData, 5000);
 </script>
+
+<script>
+// Function to fetch data from PHP script
+function fetchDataLdr() {
+  $.ajax({
+    url: 'fetch_data_ldr.php',
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      $('#ldr_lt').text(data.lt);
+      $('#ldr_rt').text(data.rt);
+      $('#ldr_ld').text(data.ld);
+      $('#ldr_rd').text(data.rd);
+      $('#create_at').text(data.create_at);
+      updateServoPositions(data.lt, data.rt, data.ld, data.rd);
+    },
+    error: function(xhr, status, error) {
+      console.error('Error fetching data:', error);
+    }
+  });
+}
+
+
+function updateServoPositions(lt, rt, ld, rd) {
+  $.ajax({
+    url: 'servo_control.php',
+    type: 'POST',
+    data: {
+      lt: lt,
+      rt: rt,
+      ld: ld,
+      rd: rd
+    },
+    dataType: 'json',
+    success: function(data) {
+      $('#servo_h').text(data.servo_h);
+      $('#servo_v').text(data.servo_v);
+      $('#direction').css('transform', `translateX(-50%) rotate(${data.servo_h}deg)`);
+    },
+    error: function(xhr, status, error) {
+      console.error('Error updating servo positions:', error);
+    }
+  });
+}
+
+// Fetch data initially
+fetchDataLdr();
+
+
+// Fetch data every 5 seconds
+setInterval(fetchDataLdr, 5000);
+</script>
+
 
 <script>
 $(function () {
@@ -379,6 +499,5 @@ $(function () {
 })
 
 </script>
-
 </body>
 </html>

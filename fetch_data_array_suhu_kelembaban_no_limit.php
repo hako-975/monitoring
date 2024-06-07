@@ -28,7 +28,7 @@ $label_suhu_kelembaban = array();
 $temperature_data = array();
 $humidity_data = array();
 while ($data = mysqli_fetch_assoc($result_dht22)) {
-    $label_suhu_kelembaban[] = $data['create_at'];
+    $label_suhu_kelembaban[] = date('d/m/Y, H:i:s', strtotime($data['create_at']));
     $temperature_data[] = $data['temperature'] . " °C";
     $humidity_data[] = $data['humidity'] . " %";
 }

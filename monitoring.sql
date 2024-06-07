@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Apr 2024 pada 17.56
+-- Waktu pembuatan: 07 Jun 2024 pada 02.37
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 7.4.33
 
@@ -87,7 +87,8 @@ INSERT INTO `dht22` (`id`, `temperature`, `humidity`, `create_at`) VALUES
 (46, 43, 32.7, '2024-04-27 06:12:10'),
 (47, 43.4, 32.4, '2024-04-27 06:12:10'),
 (48, 43.8, 32, '2024-04-27 06:12:10'),
-(49, 69, 36, '2024-04-28 13:49:33');
+(49, 69, 36, '2024-04-28 13:49:33'),
+(50, 69, 36, '2024-06-01 13:49:33');
 
 -- --------------------------------------------------------
 
@@ -158,7 +159,33 @@ INSERT INTO `ina219` (`id`, `arus`, `tegangan`, `create_at`) VALUES
 (49, 1.21, 4.16, '2024-04-27 06:27:22'),
 (50, 1.23, 4.14, '2024-04-27 06:38:22'),
 (51, 1.25, 4.12, '2024-04-27 07:18:15'),
-(52, 3.5, 6.9, '2024-04-28 14:44:31');
+(52, 3.5, 6.9, '2024-04-28 14:44:31'),
+(53, 3.5, 6.9, '2024-06-01 14:44:31');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `ldr`
+--
+
+CREATE TABLE `ldr` (
+  `id` int(11) NOT NULL,
+  `lt` int(11) NOT NULL,
+  `rt` int(11) NOT NULL,
+  `ld` int(11) NOT NULL,
+  `rd` int(11) NOT NULL,
+  `create_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `ldr`
+--
+
+INSERT INTO `ldr` (`id`, `lt`, `rt`, `ld`, `rd`, `create_at`) VALUES
+(7, 100, 50, 20, 55, '2024-06-07 00:00:13'),
+(8, 100, 100, 100, 100, '2024-06-07 00:01:33'),
+(9, 0, 0, 0, 0, '2024-06-07 00:09:58'),
+(12, 420, 10, 42, 69, '2024-06-07 00:16:10');
 
 -- --------------------------------------------------------
 
@@ -197,6 +224,12 @@ ALTER TABLE `ina219`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indeks untuk tabel `ldr`
+--
+ALTER TABLE `ldr`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
@@ -210,13 +243,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `dht22`
 --
 ALTER TABLE `dht22`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT untuk tabel `ina219`
 --
 ALTER TABLE `ina219`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+
+--
+-- AUTO_INCREMENT untuk tabel `ldr`
+--
+ALTER TABLE `ldr`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
