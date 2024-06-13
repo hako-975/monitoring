@@ -85,15 +85,13 @@
                 <p>Arus dan Tegangan</p>
               </a>
             </li>
-            
           </ul>
         </li>
-        
         <li class="nav-item">
-          <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>calendar.php" class="nav-link ">
-            <i class="nav-icon far fa-calendar-alt"></i>
+          <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>servo.php" class="nav-link ">
+            <i class="nav-icon fas fa-times"></i>
             <p>
-              Calendar
+              Dual Axis
               <span class="badge badge-info right"></span>
             </p>
           </a>
