@@ -91,7 +91,7 @@
           <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>servo.php" class="nav-link ">
             <i class="nav-icon fas fa-times"></i>
             <p>
-              Dual Axis
+               Dual Axis Solar Tracker
               <span class="badge badge-info right"></span>
             </p>
           </a>

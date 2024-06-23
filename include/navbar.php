@@ -5,7 +5,7 @@
       <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-      <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>" class="nav-link">Dashboard</a>
+      <a href="../" class="nav-link">Dashboard</a>
     </li>
   </ul>
 
@@ -39,11 +39,11 @@
         <i class="far fa-user"></i>
       </a>
       <div class="dropdown-menu dropdown-menu-right">
-        <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>profile.php" class="dropdown-item">
+        <a href="../profile.php" class="dropdown-item">
           <i class="fas fa-cog mr-2"></i> Settings
         </a>
         <div class="dropdown-divider"></div>
-        <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>logout.php" class="dropdown-item">
+        <a href="../logout.php" class="dropdown-item">
           <i class="fas fa-sign-out-alt mr-2"></i> Logout
         </a>
       </div>

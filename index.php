@@ -96,7 +96,7 @@ $dataUserLogin = dataUserLogin();
               <div class="icon">
                 <i class="fas fa-temperature-high"></i>
               </div>
-              <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>tables/suhu_dan_kelembaban_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="tables/suhu_dan_kelembaban_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -110,7 +110,7 @@ $dataUserLogin = dataUserLogin();
               <div class="icon">
                 <i class="fas fa-water"></i>
               </div>
-              <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>tables/suhu_dan_kelembaban_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="tables/suhu_dan_kelembaban_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -124,7 +124,7 @@ $dataUserLogin = dataUserLogin();
               <div class="icon">
                 <i class="fas fa-bolt"></i>
               </div>
-              <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>tables/arus_dan_tegangan_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="tables/arus_dan_tegangan_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -138,7 +138,7 @@ $dataUserLogin = dataUserLogin();
               <div class="icon">
                 <i class="fas fa-car-battery"></i>
               </div>
-              <a href="<?= implode('/', array_slice(explode('/', rtrim($_SERVER['PHP_SELF'], '/')), 0, 2)) . '/'; ?>tables/arus_dan_tegangan_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="tables/arus_dan_tegangan_table.php" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -175,7 +175,26 @@ $dataUserLogin = dataUserLogin();
         </div>
         <!-- Main row -->
         <div class="row">
-          <!-- Left col -->
+          <section class="col-lg-12 connectedSortable">
+            <!-- Custom tabs (Charts with tabs)-->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-chart-line mr-1"></i>
+                   Dual Axis Solar Tracker
+                </h3>
+              </div><!-- /.card-header -->
+              <div class="card-body">
+                  <!-- Morris chart - Sales -->
+                  <div class="chart" id="dual-axis-solar-tracker-chart" style="position: relative; height: 300px;">
+                    <canvas id="dual-axis-solar-tracker-chart-canvas" height="300" style="height: 300px;"></canvas>
+                  </div>
+              </div><!-- /.card-body -->
+            <!-- /.card -->
+            </div>
+            <!-- /.card -->
+          </section>
+
           <section class="col-lg-12 connectedSortable">
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
@@ -195,8 +214,7 @@ $dataUserLogin = dataUserLogin();
             </div>
             <!-- /.card -->
           </section>
-          <!-- /.Left col -->
-          <!-- right col (We are only adding the ID to make the widgets sortable)-->
+
           <section class="col-lg-12 connectedSortable">
              <!-- solid sales graph -->
              <div class="card">
@@ -311,6 +329,107 @@ setInterval(fetchDataLdr, 5000);
 <script>
 $(function () {
   'use strict'
+  // chart
+  var dualAxisSolarTrackerCanvas = document.getElementById('dual-axis-solar-tracker-chart-canvas').getContext('2d')
+
+  var dualAxisSolarTrackerData = {
+    labels: [],
+    datasets: [
+      {
+        label: 'LT',
+        backgroundColor: 'rgba(60,141,188,0.6)',
+        borderColor: 'rgba(60,141,188,1)',
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        data: []
+      },
+      {
+        label: 'RT',
+        backgroundColor: 'rgba(40,167,69,0.6)',
+        borderColor: 'rgba(36,150,62,1)',
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        data: []
+      },
+      {
+        label: 'LD',
+        
+        backgroundColor: 'rgba(255,193,7,0.6)',
+        borderColor: 'rgba(229,173,6,1)',
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        data: []
+      },
+      {
+        label: 'RD',
+        backgroundColor: 'rgba(220,53,69,0.6)',
+        borderColor: 'rgba(220,53,69,1)',   
+        pointRadius: 5,
+        pointHoverRadius: 8,
+        data: []
+      }
+
+    ]
+  }
+
+  var dualAxisSolarTrackerOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+    legend: {
+      display: true
+    },
+    scales: {
+      xAxes: [{
+        gridLines: {
+          display: true
+        }
+      }],
+      yAxes: [{
+        gridLines: {
+          display: true
+        }
+      }]
+    }, 
+    elements: {
+      line: {
+        tension: 0 
+      }
+    }
+  }
+
+  var dualAxisSolarTracker = new Chart(dualAxisSolarTrackerCanvas, {
+    type: 'line',
+    data: dualAxisSolarTrackerData,
+    options: dualAxisSolarTrackerOptions
+  })
+
+  // Function to fetch data from PHP script
+  function fetchDataArraydualAxisSolarTracker() {
+    $.ajax({
+      url: 'fetch_data_array_dual_axis_solar_tracker.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        dualAxisSolarTrackerData.labels = data.label_dual_axis_solar_tracker_array;
+        dualAxisSolarTrackerData.datasets[0].data = data.lt_array;
+        dualAxisSolarTrackerData.datasets[1].data = data.rt_array;
+        dualAxisSolarTrackerData.datasets[2].data = data.ld_array;
+        dualAxisSolarTrackerData.datasets[3].data = data.rd_array;
+        dualAxisSolarTracker.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
+  // Fetch data initially
+  fetchDataArraydualAxisSolarTracker();
+
+  // Fetch data every 5 seconds
+  setInterval(fetchDataArraydualAxisSolarTracker, 5000);
+
+  // ---------------------------------------------
   // chart
   var suhuKelembabanCanvas = document.getElementById('suhu-kelembaban-chart-canvas').getContext('2d')
 
