@@ -25,12 +25,51 @@ while ($data = mysqli_fetch_assoc($result_ldr)) {
     $rd_data[] = $data['rd'];
 }
 
+// Fungsi untuk menghitung regresi linear
+function calculateLinearRegression($x_array, $y_array) {
+    $n = count($x_array);
+    
+    // Menghitung jumlah x, y, xy, dan x^2
+    $sum_x = $sum_y = $sum_xy = $sum_x2 = 0;
+
+    for ($i = 0; $i < $n; $i++) {
+        $x = $x_array[$i];
+        $y = $y_array[$i];
+        $sum_x += $x;
+        $sum_y += $y;
+        $sum_xy += ($x * $y);
+        $sum_x2 += ($x * $x);
+    }
+
+    // Menghitung slope (m) dan intercept (c)
+    $m = ($n * $sum_xy - $sum_x * $sum_y) / ($n * $sum_x2 - $sum_x * $sum_x);
+    $c = ($sum_y * $sum_x2 - $sum_x * $sum_xy) / ($n * $sum_x2 - $sum_x * $sum_x);
+
+    // Mempersiapkan data untuk regresi linear
+    $regression_data = [];
+    foreach ($x_array as $x) {
+        $regression_data[] = $m * $x + $c;
+    }
+
+    return $regression_data;
+}
+
+// Menghitung regresi linear untuk masing-masing variabel
+$lt_regression = calculateLinearRegression([1,2,3,4,5], $lt_data);
+$rt_regression = calculateLinearRegression([1,2,3,4,5], $rt_data);
+$ld_regression = calculateLinearRegression([1,2,3,4,5], $ld_data);
+$rd_regression = calculateLinearRegression([1,2,3,4,5], $rd_data);
+
 $data_array = array(
     'label_dual_axis_solar_tracker_array' => $label_dual_axis_solar_tracker_array,
     'lt_array' => $lt_data,
     'rt_array' => $rt_data,
     'ld_array' => $ld_data,
-    'rd_array' => $rd_data
+    'rd_array' => $rd_data,
+    'lt_regression' => $lt_regression,
+    'rt_regression' => $rt_regression,
+    'ld_regression' => $ld_regression,
+    'rd_regression' => $rd_regression
 );
 
 echo json_encode($data_array);

@@ -75,7 +75,22 @@ $dataUserLogin = dataUserLogin();
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1 class="m-0">Dashboard</h1>
-          </div><!-- /.col -->
+          </div>
+          <div class="col-sm-6 text-right">
+            <div class="form-group">
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="filterButton">
+                  Semua Data
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#" onclick="setFilter('semua')">Semua Data</a>
+                  <a class="dropdown-item" href="#" onclick="setFilter('perhari')">Perhari</a>
+                  <a class="dropdown-item" href="#" onclick="setFilter('perminggu')">Perminggu</a>
+                  <a class="dropdown-item" href="#" onclick="setFilter('perbulan')">Perbulan</a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
@@ -157,7 +172,7 @@ $dataUserLogin = dataUserLogin();
                   <div class="card-body">
                     <div class="row">
                       <div class="col-12 p-3 border">
-                        <h4 class="mb-0 font-weight-bold">Arah Servo</h4>
+                        <h4 class="mb-0 font-weight-bold">Dual Axis Solar Tracker</h4>
                       </div>
                       <div class="col-6 border p-3">Left Top (LT): <strong id="ldr_lt"></strong> (unit)</div>
                       <div class="col-6 border p-3">Right Top (RT): <strong id="ldr_rt"></strong> (unit)</div>
@@ -337,7 +352,7 @@ $(function () {
     datasets: [
       {
         label: 'LT',
-        backgroundColor: 'rgba(60,141,188,0.6)',
+        backgroundColor: 'rgba(60,141,188,0.3)',
         borderColor: 'rgba(60,141,188,1)',
         pointRadius: 5,
         pointHoverRadius: 8,
@@ -345,7 +360,7 @@ $(function () {
       },
       {
         label: 'RT',
-        backgroundColor: 'rgba(40,167,69,0.6)',
+        backgroundColor: 'rgba(40,167,69,0.3)',
         borderColor: 'rgba(36,150,62,1)',
         pointRadius: 5,
         pointHoverRadius: 8,
@@ -354,7 +369,7 @@ $(function () {
       {
         label: 'LD',
         
-        backgroundColor: 'rgba(255,193,7,0.6)',
+        backgroundColor: 'rgba(255,193,7,0.3)',
         borderColor: 'rgba(229,173,6,1)',
         pointRadius: 5,
         pointHoverRadius: 8,
@@ -362,13 +377,52 @@ $(function () {
       },
       {
         label: 'RD',
-        backgroundColor: 'rgba(220,53,69,0.6)',
+        backgroundColor: 'rgba(220,53,69,0.3)',
         borderColor: 'rgba(220,53,69,1)',   
         pointRadius: 5,
         pointHoverRadius: 8,
         data: []
+      },
+      {
+          label: 'LT Regression',
+          backgroundColor: 'rgba(132,99,255,0.2)',
+          borderColor: 'rgba(132,99,255,1)',  
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          data: [],
+          borderDash: [5, 5],
+          fill: false
+      },
+      {
+          label: 'RT Regression',
+          backgroundColor: 'rgba(99,255,132,0.2)',
+          borderColor: 'rgba(99,255,132,1)',
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          data: [],
+          borderDash: [5, 5],
+          fill: false
+      },
+      {
+          label: 'LD Regression',
+          backgroundColor: 'rgba(255,132,99,0.2)',
+          borderColor: 'rgba(255,132,99,1)',
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          data: [],
+          borderDash: [5, 5],
+          fill: false
+      },
+      {
+          label: 'RD Regression',
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          data: [],
+          borderDash: [5, 5],
+          fill: false
       }
-
     ]
   }
 
@@ -415,6 +469,11 @@ $(function () {
         dualAxisSolarTrackerData.datasets[1].data = data.rt_array;
         dualAxisSolarTrackerData.datasets[2].data = data.ld_array;
         dualAxisSolarTrackerData.datasets[3].data = data.rd_array;
+        // Update regression data
+        dualAxisSolarTrackerData.datasets[4].data = data.lt_regression;
+        dualAxisSolarTrackerData.datasets[5].data = data.rt_regression;
+        dualAxisSolarTrackerData.datasets[6].data = data.ld_regression;
+        dualAxisSolarTrackerData.datasets[7].data = data.rd_regression;
         dualAxisSolarTracker.update()
       },
       error: function(xhr, status, error) {
@@ -438,7 +497,7 @@ $(function () {
     datasets: [
       {
         label: 'Suhu',
-        backgroundColor: 'rgba(60,141,188,0.6)',
+        backgroundColor: 'rgba(60,141,188,0.3)',
         borderColor: 'rgba(60,141,188,1)',
         pointRadius: 5,
         pointHoverRadius: 8,
@@ -446,7 +505,7 @@ $(function () {
       },
       {
         label: 'Kelembaban',
-        backgroundColor: 'rgba(40,167,69,0.6)',
+        backgroundColor: 'rgba(40,167,69,0.3)',
         borderColor: 'rgba(36,150,62,1)',
         pointRadius: 5,
         pointHoverRadius: 8,
@@ -480,9 +539,7 @@ $(function () {
     }
   }
 
-  // This will get the first returned node in the jQuery collection.
-  // eslint-disable-next-line no-unused-vars
-  var suhuKelembaban = new Chart(suhuKelembabanCanvas, { // lgtm[js/unused-local-variable]
+  var suhuKelembaban = new Chart(suhuKelembabanCanvas, { 
     type: 'line',
     data: suhuKelembabanData,
     options: suhuKelembabanOptions
@@ -512,7 +569,7 @@ $(function () {
   // Fetch data every 5 seconds
   setInterval(fetchDataArraySuhuKelembaban, 5000);
 
-// ----------------------------------------------------
+  // ----------------------------------------------------
 
   // chart
   var arusTeganganCanvas = document.getElementById('arus-tegangan-chart-canvas').getContext('2d')
@@ -522,7 +579,7 @@ $(function () {
     datasets: [
       {
         label: 'Arus',
-        backgroundColor: 'rgba(255,193,7,0.6)',
+        backgroundColor: 'rgba(255,193,7,0.3)',
         borderColor: 'rgba(229,173,6,1)',
         pointRadius: 5,
         pointHoverRadius: 8,
@@ -530,7 +587,7 @@ $(function () {
       },
       {
         label: 'Tegangan',
-        backgroundColor: 'rgba(220,53,69,0.6)',
+        backgroundColor: 'rgba(220,53,69,0.3)',
         borderColor: 'rgba(220,53,69,1)',
         pointRadius: 5,
         pointHoverRadius: 8,
@@ -564,9 +621,7 @@ $(function () {
     }
   }
 
-  // This will get the first returned node in the jQuery collection.
-  // eslint-disable-next-line no-unused-vars
-  var arusTegangan = new Chart(arusTeganganCanvas, { // lgtm[js/unused-local-variable]
+  var arusTegangan = new Chart(arusTeganganCanvas, { 
     type: 'line',
     data: arusTeganganData,
     options: arusTeganganOptions
@@ -596,7 +651,6 @@ $(function () {
   // Fetch data every 5 seconds
   setInterval(fetchDataArrayArusTegangan, 5000);
 })
-
 </script>
 </body>
 </html>
