@@ -73,23 +73,8 @@ $dataUserLogin = dataUserLogin();
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
-          </div>
-          <div class="col-sm-6 text-right">
-            <div class="form-group">
-              <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false" id="filterButton">
-                  Semua Data
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#" onclick="setFilter('semua')">Semua Data</a>
-                  <a class="dropdown-item" href="#" onclick="setFilter('perhari')">Perhari</a>
-                  <a class="dropdown-item" href="#" onclick="setFilter('perminggu')">Perminggu</a>
-                  <a class="dropdown-item" href="#" onclick="setFilter('perbulan')">Perbulan</a>
-                </div>
-              </div>
-            </div>
+          <div class="col-sm-6 my-auto">
+            <h1 class="my-auto">Dashboard</h1>
           </div>
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -193,11 +178,22 @@ $dataUserLogin = dataUserLogin();
           <section class="col-lg-12 connectedSortable">
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-chart-line mr-1"></i>
-                   Dual Axis Solar Tracker
-                </h3>
+              <div class="card-header row">
+                <div class="col my-auto">
+                  <h3 class="card-title my-auto">
+                    <i class="fas fa-chart-line mr-1"></i>
+                     Dual Axis Solar Tracker
+                  </h3>
+                </div>
+                <div class="col-sm-6 my-auto text-right">
+                  <div class="btn-group my-auto" role="group" aria-label="Time Interval Buttons">
+                    <button type="button" class="btn btn-primary">15 Menit</button>
+                    <button type="button" class="btn btn-primary">1 Jam</button>
+                    <button type="button" class="btn btn-primary">4 Jam</button>
+                    <button type="button" class="btn btn-primary">1 Hari</button>
+                    <button type="button" class="btn btn-primary">1 Bulan</button>
+                  </div>
+                </div>  
               </div><!-- /.card-header -->
               <div class="card-body">
                   <!-- Morris chart - Sales -->
@@ -213,12 +209,24 @@ $dataUserLogin = dataUserLogin();
           <section class="col-lg-12 connectedSortable">
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-chart-line mr-1"></i>
-                  Suhu dan Kelembaban
-                </h3>
-              </div><!-- /.card-header -->
+              <div class="card-header row">
+                <div class="col my-auto">
+                  <h3 class="card-title my-auto">
+                    <i class="fas fa-chart-line mr-1"></i>
+                    Suhu dan Kelembaban
+                  </h3>
+                </div>
+                <div class="col-sm-6 my-auto text-right">
+                  <div class="btn-group my-auto" role="group" aria-label="Time Interval Buttons">
+                    <button type="button" class="btn btn-primary">15 Menit</button>
+                    <button type="button" class="btn btn-primary">1 Jam</button>
+                    <button type="button" class="btn btn-primary">4 Jam</button>
+                    <button type="button" class="btn btn-primary">1 Hari</button>
+                    <button type="button" class="btn btn-primary">1 Bulan</button>
+                  </div>
+                </div>  
+              </div>
+             <!-- /.card-header -->
               <div class="card-body">
                   <!-- Morris chart - Sales -->
                   <div class="chart" id="suhu-kelembaban-chart" style="position: relative; height: 300px;">
@@ -233,11 +241,22 @@ $dataUserLogin = dataUserLogin();
           <section class="col-lg-12 connectedSortable">
              <!-- solid sales graph -->
              <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-chart-line mr-1"></i>
-                  Arus dan Tegangan 
-                </h3>
+              <div class="card-header row">
+                <div class="col my-auto">
+                  <h3 class="card-title my-auto">
+                    <i class="fas fa-chart-line mr-1"></i>
+                    Arus dan Tegangan 
+                  </h3>
+                </div>
+                <div class="col-sm-6 my-auto text-right">
+                  <div class="btn-group my-auto" role="group" aria-label="Time Interval Buttons">
+                    <button type="button" class="btn btn-primary">15 Menit</button>
+                    <button type="button" class="btn btn-primary">1 Jam</button>
+                    <button type="button" class="btn btn-primary">4 Jam</button>
+                    <button type="button" class="btn btn-primary">1 Hari</button>
+                    <button type="button" class="btn btn-primary">1 Bulan</button>
+                  </div>
+                </div>  
               </div>
               <div class="card-body">
                 <div class="chart" id="arus-tegangan-chart" style="position: relative; height: 300px;">
