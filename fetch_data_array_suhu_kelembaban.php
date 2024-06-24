@@ -20,10 +20,45 @@ while ($data = mysqli_fetch_assoc($result_dht22)) {
     $humidity_data[] = $data['humidity'];
 }
 
+// Fungsi untuk menghitung regresi linear
+function calculateLinearRegression($x_array, $y_array) {
+    $n = count($x_array);
+    
+    // Menghitung jumlah x, y, xy, dan x^2
+    $sum_x = $sum_y = $sum_xy = $sum_x2 = 0;
+
+    for ($i = 0; $i < $n; $i++) {
+        $x = $x_array[$i];
+        $y = $y_array[$i];
+        $sum_x += $x;
+        $sum_y += $y;
+        $sum_xy += ($x * $y);
+        $sum_x2 += ($x * $x);
+    }
+
+    // Menghitung slope (m) dan intercept (c)
+    $m = ($n * $sum_xy - $sum_x * $sum_y) / ($n * $sum_x2 - $sum_x * $sum_x);
+    $c = ($sum_y * $sum_x2 - $sum_x * $sum_xy) / ($n * $sum_x2 - $sum_x * $sum_x);
+
+    // Mempersiapkan data untuk regresi linear
+    $regression_data = [];
+    foreach ($x_array as $x) {
+        $regression_data[] = $m * $x + $c;
+    }
+
+    return $regression_data;
+}
+
+// Menghitung regresi linear untuk masing-masing variabel
+$temperature_regression = calculateLinearRegression([1,2,3,4,5], $temperature_data);
+$humidity_regression = calculateLinearRegression([1,2,3,4,5], $humidity_data);
+
 $data_array = array(
     'label_suhu_kelembaban_array' => $label_suhu_kelembaban,
     'temperature_array' => $temperature_data,
-    'humidity_array' => $humidity_data
+    'humidity_array' => $humidity_data,
+    'temperature_regression' => $temperature_regression,
+    'humidity_regression' => $humidity_regression
 );
 
 echo json_encode($data_array);

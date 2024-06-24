@@ -510,6 +510,26 @@ $(function () {
         pointRadius: 5,
         pointHoverRadius: 8,
         data: []
+      },
+      {
+          label: 'Suhu Regression',
+          backgroundColor: 'rgba(132,99,255,0.2)',
+          borderColor: 'rgba(132,99,255,1)',  
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          data: [],
+          borderDash: [5, 5],
+          fill: false
+      },
+      {
+          label: 'Kelembaban Regression',
+          backgroundColor: 'rgba(99,255,132,0.2)',
+          borderColor: 'rgba(99,255,132,1)',
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          data: [],
+          borderDash: [5, 5],
+          fill: false
       }
     ]
   }
@@ -555,6 +575,8 @@ $(function () {
         suhuKelembabanData.labels = data.label_suhu_kelembaban_array;
         suhuKelembabanData.datasets[0].data = data.temperature_array;
         suhuKelembabanData.datasets[1].data = data.humidity_array;
+        suhuKelembabanData.datasets[2].data = data.temperature_regression;
+        suhuKelembabanData.datasets[3].data = data.humidity_regression;
         suhuKelembaban.update()
       },
       error: function(xhr, status, error) {
@@ -592,6 +614,26 @@ $(function () {
         pointRadius: 5,
         pointHoverRadius: 8,
         data: []
+      },
+      {
+          label: 'Arus Regression',
+          backgroundColor: 'rgba(255,132,99,0.2)',
+          borderColor: 'rgba(255,132,99,1)',
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          data: [],
+          borderDash: [5, 5],
+          fill: false
+      },
+      {
+          label: 'Tegangan Regression',
+          backgroundColor: 'rgba(255,99,132,0.2)',
+          borderColor: 'rgba(255,99,132,1)',
+          pointRadius: 0,
+          pointHoverRadius: 0,
+          data: [],
+          borderDash: [5, 5],
+          fill: false
       }
     ]
   }
@@ -637,6 +679,8 @@ $(function () {
         arusTeganganData.labels = data.label_arus_tegangan_array;
         arusTeganganData.datasets[0].data = data.arus_array;
         arusTeganganData.datasets[1].data = data.tegangan_array;
+        arusTeganganData.datasets[2].data = data.arus_regression;
+        arusTeganganData.datasets[3].data = data.tegangan_regression;
         arusTegangan.update()
       },
       error: function(xhr, status, error) {
