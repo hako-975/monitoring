@@ -165,7 +165,19 @@ $dataUserLogin = dataUserLogin();
                       <div class="col-6 border p-3">Right Down (RD): <strong id="ldr_rd"></strong> (unit)</div>
                       <div class="col-6 border p-3">Servo Horizontal: <strong id="servo_h"></strong> (derajat)</div>
                       <div class="col-6 border p-3">Servo Vertical: <strong id="servo_v"></strong> (derajat)</div>
-                      <div class="col-12 border p-3">Create At: <strong id="create_at"></strong></div>
+                      <div class="col-6 border p-3">Tanggal: <strong id="create_at"></strong></div>
+                      <div class="col-6 border p-3">
+                        <div class="row">
+                          <div class="col-8 my-auto">
+                            <select id="selectCreateAt" class="custom-select" onchange="fetchDataByCreateAt(this.value)">
+                              <option value="">--- Pilih Tanggal ---</option>
+                            </select>
+                          </div>
+                          <div class="col-4 my-auto">
+                            <button id="nowButton" onclick="restartAutoUpdate()" class="btn btn-primary">Now</button>
+                          </div>
+                        </div>
+                      </div>
                     </div>  
                   </div>
                 </div>
@@ -175,6 +187,22 @@ $dataUserLogin = dataUserLogin();
         </div>
         <!-- Main row -->
         <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title my-auto">
+                  <i class="fas fa-chart-line mr-1"></i>
+                   Filter Grafik
+                </h3>
+              </div>
+              <div class="btn-group my-auto" role="group" aria-label="Time Interval Buttons">
+                  <button id="btn-now" type="button" class="btn btn-primary active">Now</button>
+                  <button id="btn-1-day" type="button" class="btn btn-primary">1 Day</button>
+                  <button id="btn-1-week" type="button" class="btn btn-primary">1 Week</button>
+                  <button id="btn-1-month" type="button" class="btn btn-primary">1 Month</button>
+              </div>
+            </div>
+          </div>
           <section class="col-lg-12 connectedSortable">
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
@@ -184,22 +212,13 @@ $dataUserLogin = dataUserLogin();
                     <i class="fas fa-chart-line mr-1"></i>
                      Dual Axis Solar Tracker
                   </h3>
-                </div>
-                <div class="col-sm-6 my-auto text-right">
-                  <div class="btn-group my-auto" role="group" aria-label="Time Interval Buttons">
-                    <button type="button" class="btn btn-primary">15 Menit</button>
-                    <button type="button" class="btn btn-primary">1 Jam</button>
-                    <button type="button" class="btn btn-primary">4 Jam</button>
-                    <button type="button" class="btn btn-primary">1 Hari</button>
-                    <button type="button" class="btn btn-primary">1 Bulan</button>
-                  </div>
-                </div>  
+                </div> 
               </div><!-- /.card-header -->
               <div class="card-body">
-                  <!-- Morris chart - Sales -->
-                  <div class="chart" id="dual-axis-solar-tracker-chart" style="position: relative; height: 300px;">
-                    <canvas id="dual-axis-solar-tracker-chart-canvas" height="300" style="height: 300px;"></canvas>
-                  </div>
+                <!-- Morris chart - Sales -->
+                <div class="chart" id="dual-axis-solar-tracker-chart" style="position: relative; height: 300px;">
+                  <canvas id="dual-axis-solar-tracker-chart-canvas" height="300" style="height: 300px;"></canvas>
+                </div>
               </div><!-- /.card-body -->
             <!-- /.card -->
             </div>
@@ -215,16 +234,7 @@ $dataUserLogin = dataUserLogin();
                     <i class="fas fa-chart-line mr-1"></i>
                     Suhu dan Kelembaban
                   </h3>
-                </div>
-                <div class="col-sm-6 my-auto text-right">
-                  <div class="btn-group my-auto" role="group" aria-label="Time Interval Buttons">
-                    <button type="button" class="btn btn-primary">15 Menit</button>
-                    <button type="button" class="btn btn-primary">1 Jam</button>
-                    <button type="button" class="btn btn-primary">4 Jam</button>
-                    <button type="button" class="btn btn-primary">1 Hari</button>
-                    <button type="button" class="btn btn-primary">1 Bulan</button>
-                  </div>
-                </div>  
+                </div> 
               </div>
              <!-- /.card-header -->
               <div class="card-body">
@@ -247,15 +257,6 @@ $dataUserLogin = dataUserLogin();
                     <i class="fas fa-chart-line mr-1"></i>
                     Arus dan Tegangan 
                   </h3>
-                </div>
-                <div class="col-sm-6 my-auto text-right">
-                  <div class="btn-group my-auto" role="group" aria-label="Time Interval Buttons">
-                    <button type="button" class="btn btn-primary">15 Menit</button>
-                    <button type="button" class="btn btn-primary">1 Jam</button>
-                    <button type="button" class="btn btn-primary">4 Jam</button>
-                    <button type="button" class="btn btn-primary">1 Hari</button>
-                    <button type="button" class="btn btn-primary">1 Bulan</button>
-                  </div>
                 </div>  
               </div>
               <div class="card-body">
@@ -308,6 +309,26 @@ setInterval(fetchData, 5000);
 </script>
 
 <script>
+
+var autoUpdateInterval; // Variable to store the interval ID for automatic updates
+
+// Function to restart automatic updates every 5 seconds
+function startAutoUpdate() {
+  autoUpdateInterval = setInterval(fetchDataLdr, 5000);
+}
+
+// Function to stop automatic updates
+function stopAutoUpdate() {
+  clearInterval(autoUpdateInterval);
+}
+
+// Function to restart automatic updates when "Now" button is clicked
+function restartAutoUpdate() {
+  fetchDataLdr(); // Fetch data immediately on "Now" click
+  startAutoUpdate(); // Start automatic updates again
+  $('#selectCreateAt').val('');
+}
+
 // Function to fetch data from PHP script
 function fetchDataLdr() {
   $.ajax({
@@ -354,9 +375,52 @@ function updateServoPositions(lt, rt, ld, rd) {
 // Fetch data initially
 fetchDataLdr();
 
+function fetchDataByCreateAt(selectedCreateAt) {
+  stopAutoUpdate();
 
-// Fetch data every 5 seconds
-setInterval(fetchDataLdr, 5000);
+  $.ajax({
+    url: 'fetch_data_by_create_at.php',
+    type: 'GET',
+    data: { create_at: selectedCreateAt },
+    dataType: 'json',
+    success: function(data) {
+      $('#ldr_lt').text(data.lt);
+      $('#ldr_rt').text(data.rt);
+      $('#ldr_ld').text(data.ld);
+      $('#ldr_rd').text(data.rd);
+      $('#create_at').text(data.create_at);
+      updateServoPositions(data.lt, data.rt, data.ld, data.rd);
+    },
+    error: function(xhr, status, error) {
+      console.error('Error fetching data by create_at:', error);
+    }
+  });
+}
+
+function fetchListCreateAt() {
+  $.ajax({
+    url: 'fetch_list_create_at.php',
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      $('#selectCreateAt').empty();
+      $('#selectCreateAt').append('<option value="">--- Pilih Tanggal ---</option>');
+      data.forEach(function(timestamp) {
+        $('#selectCreateAt').append(`<option value="${timestamp}">${timestamp}</option>`);
+      });
+    },
+    error: function(xhr, status, error) {
+      console.error('Error fetching list_create_at:', error);
+    }
+  });
+}
+
+fetchDataLdr();
+
+// Call fetchListCreateAt initially to populate the dropdown
+fetchListCreateAt();
+
+startAutoUpdate();
 </script>
 
 
@@ -476,6 +540,9 @@ $(function () {
     options: dualAxisSolarTrackerOptions
   })
 
+  var intervalId;
+  var activeButtonId = 'btn-now'; // Variable to track active button ID
+
   // Function to fetch data from PHP script
   function fetchDataArraydualAxisSolarTracker() {
     $.ajax({
@@ -501,11 +568,131 @@ $(function () {
     });
   }
 
+  function fetchDataArraydualAxisSolarTrackerFor1Day() {
+    $.ajax({
+      url: 'fetch_data_array_dual_axis_solar_tracker_for_1_day.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        dualAxisSolarTrackerData.labels = data.label_dual_axis_solar_tracker_array;
+        dualAxisSolarTrackerData.datasets[0].data = data.lt_array;
+        dualAxisSolarTrackerData.datasets[1].data = data.rt_array;
+        dualAxisSolarTrackerData.datasets[2].data = data.ld_array;
+        dualAxisSolarTrackerData.datasets[3].data = data.rd_array;
+        // Update regression data
+        dualAxisSolarTrackerData.datasets[4].data = data.lt_regression;
+        dualAxisSolarTrackerData.datasets[5].data = data.rt_regression;
+        dualAxisSolarTrackerData.datasets[6].data = data.ld_regression;
+        dualAxisSolarTrackerData.datasets[7].data = data.rd_regression;
+        dualAxisSolarTracker.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
+  function fetchDataArraydualAxisSolarTrackerFor1Week() {
+    $.ajax({
+      url: 'fetch_data_array_dual_axis_solar_tracker_for_1_week.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        dualAxisSolarTrackerData.labels = data.label_dual_axis_solar_tracker_array;
+        dualAxisSolarTrackerData.datasets[0].data = data.lt_array;
+        dualAxisSolarTrackerData.datasets[1].data = data.rt_array;
+        dualAxisSolarTrackerData.datasets[2].data = data.ld_array;
+        dualAxisSolarTrackerData.datasets[3].data = data.rd_array;
+        // Update regression data
+        dualAxisSolarTrackerData.datasets[4].data = data.lt_regression;
+        dualAxisSolarTrackerData.datasets[5].data = data.rt_regression;
+        dualAxisSolarTrackerData.datasets[6].data = data.ld_regression;
+        dualAxisSolarTrackerData.datasets[7].data = data.rd_regression;
+        dualAxisSolarTracker.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
+  function fetchDataArraydualAxisSolarTrackerFor1Month() {
+    $.ajax({
+      url: 'fetch_data_array_dual_axis_solar_tracker_for_1_month.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        dualAxisSolarTrackerData.labels = data.label_dual_axis_solar_tracker_array;
+        dualAxisSolarTrackerData.datasets[0].data = data.lt_array;
+        dualAxisSolarTrackerData.datasets[1].data = data.rt_array;
+        dualAxisSolarTrackerData.datasets[2].data = data.ld_array;
+        dualAxisSolarTrackerData.datasets[3].data = data.rd_array;
+        // Update regression data
+        dualAxisSolarTrackerData.datasets[4].data = data.lt_regression;
+        dualAxisSolarTrackerData.datasets[5].data = data.rt_regression;
+        dualAxisSolarTrackerData.datasets[6].data = data.ld_regression;
+        dualAxisSolarTrackerData.datasets[7].data = data.rd_regression;
+        dualAxisSolarTracker.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
   // Fetch data initially
   fetchDataArraydualAxisSolarTracker();
 
-  // Fetch data every 5 seconds
-  setInterval(fetchDataArraydualAxisSolarTracker, 5000);
+  // Function to start interval
+  function startInterval() {
+    fetchDataArraydualAxisSolarTracker();
+    intervalId = setInterval(fetchDataArraydualAxisSolarTracker, 5000);
+  }
+
+  // Function to stop interval
+  function stopInterval() {
+    clearInterval(intervalId);
+  }
+
+  // Function to toggle active button style
+  function setActiveButton(buttonId) {
+    // Remove active class from all buttons
+    var buttons = document.getElementsByClassName('btn');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].classList.remove('active');
+    }
+    // Add active class to the selected button
+    document.getElementById(buttonId).classList.add('active');
+    // Set activeButtonId to the current active button
+    activeButtonId = buttonId;
+  }
+
+  // Event listeners for buttons
+  document.getElementById('btn-now').addEventListener('click', function() {
+    setActiveButton('btn-now');
+    startInterval();
+  });
+
+  document.getElementById('btn-1-day').addEventListener('click', function() {
+    setActiveButton('btn-1-day');
+    stopInterval();
+    // Logic to fetch data for 1 day
+    fetchDataArraydualAxisSolarTrackerFor1Day();
+  });
+
+  document.getElementById('btn-1-week').addEventListener('click', function() {
+    setActiveButton('btn-1-week');
+    stopInterval();
+    // Logic to fetch data for 1 week
+    fetchDataArraydualAxisSolarTrackerFor1Week();
+  });
+
+  document.getElementById('btn-1-month').addEventListener('click', function() {
+    setActiveButton('btn-1-month');
+    stopInterval();
+    // Logic to fetch data for 1 month
+    fetchDataArraydualAxisSolarTrackerFor1Month();
+  });
 
   // ---------------------------------------------
   // chart

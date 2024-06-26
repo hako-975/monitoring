@@ -3,7 +3,7 @@ require_once 'connection.php';
 
 // Fetch latest data
 $sql_ldr = "SELECT * FROM (
-    SELECT * FROM ldr ORDER BY id DESC LIMIT 5
+    SELECT * FROM ldr WHERE DATE(create_at) = CURDATE() ORDER BY id DESC
 ) AS latest_data
 ORDER BY create_at ASC;
 ";
@@ -60,6 +60,8 @@ function calculateLinearRegression($x_array, $y_array) {
 
     return $regression_data;
 }
+
+
 
 // Menghitung regresi linear untuk masing-masing variabel
 $lt_regression = calculateLinearRegression($x_array, $lt_data);
