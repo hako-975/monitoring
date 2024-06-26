@@ -196,10 +196,10 @@ $dataUserLogin = dataUserLogin();
                 </h3>
               </div>
               <div class="btn-group my-auto" role="group" aria-label="Time Interval Buttons">
-                  <button id="btn-now" type="button" class="btn btn-primary active">Now</button>
-                  <button id="btn-1-day" type="button" class="btn btn-primary">1 Day</button>
-                  <button id="btn-1-week" type="button" class="btn btn-primary">1 Week</button>
-                  <button id="btn-1-month" type="button" class="btn btn-primary">1 Month</button>
+                <button id="btn-now" type="button" class="btn btn-primary active">Now</button>
+                <button id="btn-1-day" type="button" class="btn btn-primary">1 Day</button>
+                <button id="btn-1-week" type="button" class="btn btn-primary">1 Week</button>
+                <button id="btn-1-month" type="button" class="btn btn-primary">1 Month</button>
               </div>
             </div>
           </div>
@@ -427,6 +427,12 @@ startAutoUpdate();
 <script>
 $(function () {
   'use strict'
+
+  var intervalIdDualAxisSolarTracker;
+  var intervalIdSuhuKelembaban;
+  var intervalIdArusTegangan;
+  var activeButtonId = 'btn-now'; // Variable to track active button ID
+
   // chart
   var dualAxisSolarTrackerCanvas = document.getElementById('dual-axis-solar-tracker-chart-canvas').getContext('2d')
 
@@ -540,11 +546,8 @@ $(function () {
     options: dualAxisSolarTrackerOptions
   })
 
-  var intervalId;
-  var activeButtonId = 'btn-now'; // Variable to track active button ID
-
   // Function to fetch data from PHP script
-  function fetchDataArraydualAxisSolarTracker() {
+  function fetchDataArrayDualAxisSolarTracker() {
     $.ajax({
       url: 'fetch_data_array_dual_axis_solar_tracker.php',
       type: 'GET',
@@ -568,7 +571,7 @@ $(function () {
     });
   }
 
-  function fetchDataArraydualAxisSolarTrackerFor1Day() {
+  function fetchDataArrayDualAxisSolarTrackerFor1Day() {
     $.ajax({
       url: 'fetch_data_array_dual_axis_solar_tracker_for_1_day.php',
       type: 'GET',
@@ -592,7 +595,7 @@ $(function () {
     });
   }
 
-  function fetchDataArraydualAxisSolarTrackerFor1Week() {
+  function fetchDataArrayDualAxisSolarTrackerFor1Week() {
     $.ajax({
       url: 'fetch_data_array_dual_axis_solar_tracker_for_1_week.php',
       type: 'GET',
@@ -616,7 +619,7 @@ $(function () {
     });
   }
 
-  function fetchDataArraydualAxisSolarTrackerFor1Month() {
+  function fetchDataArrayDualAxisSolarTrackerFor1Month() {
     $.ajax({
       url: 'fetch_data_array_dual_axis_solar_tracker_for_1_month.php',
       type: 'GET',
@@ -641,58 +644,7 @@ $(function () {
   }
 
   // Fetch data initially
-  fetchDataArraydualAxisSolarTracker();
-
-  // Function to start interval
-  function startInterval() {
-    fetchDataArraydualAxisSolarTracker();
-    intervalId = setInterval(fetchDataArraydualAxisSolarTracker, 5000);
-  }
-
-  // Function to stop interval
-  function stopInterval() {
-    clearInterval(intervalId);
-  }
-
-  // Function to toggle active button style
-  function setActiveButton(buttonId) {
-    // Remove active class from all buttons
-    var buttons = document.getElementsByClassName('btn');
-    for (var i = 0; i < buttons.length; i++) {
-      buttons[i].classList.remove('active');
-    }
-    // Add active class to the selected button
-    document.getElementById(buttonId).classList.add('active');
-    // Set activeButtonId to the current active button
-    activeButtonId = buttonId;
-  }
-
-  // Event listeners for buttons
-  document.getElementById('btn-now').addEventListener('click', function() {
-    setActiveButton('btn-now');
-    startInterval();
-  });
-
-  document.getElementById('btn-1-day').addEventListener('click', function() {
-    setActiveButton('btn-1-day');
-    stopInterval();
-    // Logic to fetch data for 1 day
-    fetchDataArraydualAxisSolarTrackerFor1Day();
-  });
-
-  document.getElementById('btn-1-week').addEventListener('click', function() {
-    setActiveButton('btn-1-week');
-    stopInterval();
-    // Logic to fetch data for 1 week
-    fetchDataArraydualAxisSolarTrackerFor1Week();
-  });
-
-  document.getElementById('btn-1-month').addEventListener('click', function() {
-    setActiveButton('btn-1-month');
-    stopInterval();
-    // Logic to fetch data for 1 month
-    fetchDataArraydualAxisSolarTrackerFor1Month();
-  });
+  fetchDataArrayDualAxisSolarTracker();
 
   // ---------------------------------------------
   // chart
@@ -791,11 +743,67 @@ $(function () {
     });
   }
 
+  function fetchDataArraySuhuKelembabanFor1Day() {
+    $.ajax({
+      url: 'fetch_data_array_suhu_kelembaban_for_1_day.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        suhuKelembabanData.labels = data.label_suhu_kelembaban_array;
+        suhuKelembabanData.datasets[0].data = data.temperature_array;
+        suhuKelembabanData.datasets[1].data = data.humidity_array;
+        suhuKelembabanData.datasets[2].data = data.temperature_regression;
+        suhuKelembabanData.datasets[3].data = data.humidity_regression;
+        suhuKelembaban.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
+  function fetchDataArraySuhuKelembabanFor1Week() {
+    $.ajax({
+      url: 'fetch_data_array_suhu_kelembaban_for_1_week.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        suhuKelembabanData.labels = data.label_suhu_kelembaban_array;
+        suhuKelembabanData.datasets[0].data = data.temperature_array;
+        suhuKelembabanData.datasets[1].data = data.humidity_array;
+        suhuKelembabanData.datasets[2].data = data.temperature_regression;
+        suhuKelembabanData.datasets[3].data = data.humidity_regression;
+        suhuKelembaban.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
+  function fetchDataArraySuhuKelembabanFor1Month() {
+    $.ajax({
+      url: 'fetch_data_array_suhu_kelembaban_for_1_month.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        suhuKelembabanData.labels = data.label_suhu_kelembaban_array;
+        suhuKelembabanData.datasets[0].data = data.temperature_array;
+        suhuKelembabanData.datasets[1].data = data.humidity_array;
+        suhuKelembabanData.datasets[2].data = data.temperature_regression;
+        suhuKelembabanData.datasets[3].data = data.humidity_regression;
+        suhuKelembaban.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
   // Fetch data initially
   fetchDataArraySuhuKelembaban();
 
-  // Fetch data every 5 seconds
-  setInterval(fetchDataArraySuhuKelembaban, 5000);
+  
 
   // ----------------------------------------------------
 
@@ -895,11 +903,132 @@ $(function () {
     });
   }
 
+  function fetchDataArrayArusTeganganFor1Day() {
+    $.ajax({
+      url: 'fetch_data_array_arus_tegangan_for_1_day.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        arusTeganganData.labels = data.label_arus_tegangan_array;
+        arusTeganganData.datasets[0].data = data.arus_array;
+        arusTeganganData.datasets[1].data = data.tegangan_array;
+        arusTeganganData.datasets[2].data = data.arus_regression;
+        arusTeganganData.datasets[3].data = data.tegangan_regression;
+        arusTegangan.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
+  function fetchDataArrayArusTeganganFor1Week() {
+    $.ajax({
+      url: 'fetch_data_array_arus_tegangan_for_1_week.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        arusTeganganData.labels = data.label_arus_tegangan_array;
+        arusTeganganData.datasets[0].data = data.arus_array;
+        arusTeganganData.datasets[1].data = data.tegangan_array;
+        arusTeganganData.datasets[2].data = data.arus_regression;
+        arusTeganganData.datasets[3].data = data.tegangan_regression;
+        arusTegangan.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
+  function fetchDataArrayArusTeganganFor1Month() {
+    $.ajax({
+      url: 'fetch_data_array_arus_tegangan_for_1_month.php',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        arusTeganganData.labels = data.label_arus_tegangan_array;
+        arusTeganganData.datasets[0].data = data.arus_array;
+        arusTeganganData.datasets[1].data = data.tegangan_array;
+        arusTeganganData.datasets[2].data = data.arus_regression;
+        arusTeganganData.datasets[3].data = data.tegangan_regression;
+        arusTegangan.update()
+      },
+      error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+      }
+    });
+  }
+
   // Fetch data initially
   fetchDataArrayArusTegangan();
+  
+  //-------------------------BUTTON FILTER -------------------------
 
-  // Fetch data every 5 seconds
-  setInterval(fetchDataArrayArusTegangan, 5000);
+  // Function to start interval
+  function startInterval() {
+    fetchDataArrayDualAxisSolarTracker();
+    fetchDataArraySuhuKelembaban();
+    fetchDataArrayArusTegangan();
+
+    intervalIdDualAxisSolarTracker = setInterval(fetchDataArrayDualAxisSolarTracker, 5000);
+    intervalIdSuhuKelembaban = setInterval(fetchDataArraySuhuKelembaban, 5000);
+    intervalIdArusTegangan = setInterval(fetchDataArrayArusTegangan, 5000);
+  }
+
+  // Function to stop interval
+  function stopInterval() {
+    clearInterval(intervalIdDualAxisSolarTracker);
+    clearInterval(intervalIdSuhuKelembaban);
+    clearInterval(intervalIdArusTegangan);
+  }
+
+  // Function to toggle active button style
+  function setActiveButton(buttonId) {
+    // Remove active class from all buttons
+    var buttons = document.getElementsByClassName('btn');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].classList.remove('active');
+    }
+    // Add active class to the selected button
+    document.getElementById(buttonId).classList.add('active');
+    // Set activeButtonId to the current active button
+    activeButtonId = buttonId;
+  }
+
+  // Event listeners for buttons
+  document.getElementById('btn-now').addEventListener('click', function() {
+    setActiveButton('btn-now');
+    startInterval();
+  });
+
+  document.getElementById('btn-1-day').addEventListener('click', function() {
+    setActiveButton('btn-1-day');
+    stopInterval();
+    // Logic to fetch data for 1 day
+    fetchDataArrayDualAxisSolarTrackerFor1Day();
+    fetchDataArraySuhuKelembabanFor1Day();
+    fetchDataArrayArusTeganganFor1Day();
+  });
+
+  document.getElementById('btn-1-week').addEventListener('click', function() {
+    setActiveButton('btn-1-week');
+    stopInterval();
+    // Logic to fetch data for 1 week
+    fetchDataArrayDualAxisSolarTrackerFor1Week();
+    fetchDataArraySuhuKelembabanFor1Week();
+    fetchDataArrayArusTeganganFor1Week();
+  });
+
+  document.getElementById('btn-1-month').addEventListener('click', function() {
+    setActiveButton('btn-1-month');
+    stopInterval();
+    // Logic to fetch data for 1 month
+    fetchDataArrayDualAxisSolarTrackerFor1Month();
+    fetchDataArraySuhuKelembabanFor1Month();
+    fetchDataArrayArusTeganganFor1Month();
+  });
+
 })
 </script>
 </body>
