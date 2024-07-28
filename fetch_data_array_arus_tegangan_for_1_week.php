@@ -60,10 +60,10 @@ $tegangan_regression = calculateLinearRegression($x_array, $tegangan_data);
 
 $data_array = array(
     'label_arus_tegangan_array' => $label_arus_tegangan_array,
-    'arus_array' => $arus_data,
-    'tegangan_array' => $tegangan_data,
-    'arus_regression' => $arus_regression,
-    'tegangan_regression' => $tegangan_regression
+    'arus_array' => $tegangan_data,
+    'tegangan_array' => $arus_data,
+    'arus_regression' => $tegangan_regression,
+    'tegangan_regression' => $arus_regression
 );
 
 echo json_encode($data_array);

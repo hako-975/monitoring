@@ -15,8 +15,8 @@ if (mysqli_num_rows($result_dht22) > 0 || mysqli_num_rows($result_ina219) > 0) {
     $data = array(
         'temperature' => $row_dht22['temperature'],
         'humidity' => $row_dht22['humidity'],
-        'tegangan' => $row_ina219['tegangan'],
-        'arus' => $row_ina219['arus']
+        'tegangan' => $row_ina219['arus'],
+        'arus' => $row_ina219['tegangan']
     );
     echo json_encode($data);
 } else {

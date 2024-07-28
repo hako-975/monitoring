@@ -29,14 +29,14 @@ $tegangan_data = array();
 $arus_data = array();
 while ($data = mysqli_fetch_assoc($result_ina219)) {
     $label_arus_tegangan_array[] = date('d/m/Y, H:i:s', strtotime($data['create_at']));
-    $arus_data[] = $data['arus'] . " A";
-    $tegangan_data[] = $data['tegangan'] . " V";
+    $arus_data[] = $data['arus'] . " V";
+    $tegangan_data[] = $data['tegangan'] . " A";
 }
 
 $data_array = array(
     'label_arus_tegangan_array' => $label_arus_tegangan_array,
-    'arus_array' => $arus_data,
-    'tegangan_array' => $tegangan_data
+    'arus_array' => $tegangan_data,
+    'tegangan_array' => $arus_data
 );
 
 echo json_encode($data_array);
