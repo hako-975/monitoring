@@ -2,7 +2,7 @@
 date_default_timezone_set("Asia/Jakarta");
 session_start();
 
-$connection = mysqli_connect('localhost:3306', 'dastmoni_admin', 'grandakasia29', 'dastmoni_monitoring') or die('Koneksi Gagal');
+$connection = mysqli_connect('localhost', 'root', '', 'monitoring') or die('Koneksi Gagal');
 
 function setAlert($title='', $text='', $type='', $buttons='') {
 	$_SESSION["alert"]["title"]		= $title;
